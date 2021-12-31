@@ -1,0 +1,6 @@
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\bin\Debug\JExtensions.dll
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\bin\Debug\JExtensions.pdb
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExtensions.csproj.AssemblyReference.cache
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExtensions.csproj.CoreCompileInputs.cache
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExtensions.dll
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExtensions.pdb
