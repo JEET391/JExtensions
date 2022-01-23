@@ -2,7 +2,7 @@
 
 namespace JExtensions.Constants
 {
-    public static class Constant
+    public static class Constants
     {
         internal static readonly string GET_NOT_UPLOADED_FILES = "GET_NOT_UPLOADED_FILES";
         internal static readonly string INSERT_DATATABLE = "INSERT_DATATABLE";

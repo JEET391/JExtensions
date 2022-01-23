@@ -1,27 +1,194 @@
-﻿using System;
+﻿using JExtensions.Enum;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace JExtensions.Extensions
 {
-    public enum Month
-    {
-        January = 1,
-        February = 2,
-        March = 3,
-        April = 4,
-        May = 5,
-        June = 6,
-        July = 7,
-        August = 8,
-        September = 9,
-        October = 10,
-        November = 11,
-        December = 12
-    }
-
     public static class StringExtensions
     {
+        public static string AddDateStamp<T>(this T value)
+        {
+            string x = ToString(value);
+            if (x == "")
+            {
+                return string.Format("{0}{1:_yyyyMMdd}", "", DateTime.Now);
+            }
+            return string.Format("{0}{1:_yyyyMMdd}", value, DateTime.Now);
+        }
+
+        public static string AddDateTimeStamp<T>(this T value)
+        {
+            string x = ToString(value);
+            if (x == "")
+            {
+                return string.Format("{0}{1:_yyyyMMddHHmmssffftt}", "", DateTime.Now);
+            }
+            return string.Format("{0}{1:_yyyyMMddHHmmssffftt}", value, DateTime.Now);
+        }
+
+        public static string AddQuote(this string value)
+        {
+            return "[" + value + "]";
+        }
+
+        public static string AddQuote(this string value, Quote quote)
+        {
+            switch (quote)
+            {
+                case Quote.CurlyBraket:
+                    return "{" + value + "}";
+
+                case Quote.DoubleQuote:
+                    return "\"" + value + "\"";
+
+                case Quote.SingleQuote:
+                    return "'" + value + "'";
+
+                case Quote.SmallBraket:
+                    return "(" + value + ")";
+
+                case Quote.None:
+                    return value;
+
+                default:
+                    return "[" + value + "]";
+            }
+        }
+
+        public static string AddQuote(this string value, Quote quote, string splitCharacters)
+        {
+            string[] parts = value.Split(splitCharacters);
+            return string.Join(",", parts.Select(x => x.AddQuote(quote)).ToArray());
+        }
+
+        public static string AddQuote(this string value, Quote quote, string splitCharacters, char joinWith)
+        {
+            string[] parts = value.Split(splitCharacters);
+            return string.Join(joinWith.ToString(), parts.Select(x => x.AddQuote(quote)).ToArray());
+        }
+
+        public static string AddTimeStamp<T>(this T value)
+        {
+            string x = ToString(value);
+            if (x == "")
+            {
+                return string.Format("{0}{1: HH:mm:ss}", "", DateTime.Now);
+            }
+            return string.Format("{0}{1: HH:mm:ss}", value, DateTime.Now);
+        }
+
+        public static string AddTimeStamp<T>(this T value, bool AMPM)
+        {
+            if (AMPM)
+            {
+                string x = ToString(value);
+                if (x == "")
+                {
+                    return string.Format("{0}{1: hh:mm:ss}", "", DateTime.Now);
+                }
+                return string.Format("{0}{1: hh:mm:ss}", value, DateTime.Now);
+            }
+            else
+            {
+                return AddTimeStamp(value);
+            }
+        }
+
+        public static string AppendDateTimeStamp<T>(this string value)
+        {
+            return value == ""
+                ? string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", "", DateTime.Now)
+                : string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", value, DateTime.Now);
+        }
+
+        public static bool Between<T>(this T value, T x, T y)
+        {
+            return Comparer<T>.Default.Compare(value, x) >= 0
+                && Comparer<T>.Default.Compare(value, y) <= 0;
+        }
+
+        public static string ToMemorySize(this long byteLength)
+        {
+            string[] suf = { "Byte", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
+            if (byteLength == 0)
+            {
+                return "0" + suf[0];
+            }
+            long bytes = Math.Abs(byteLength);
+            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return (Math.Sign(byteLength) * num).ToString() + suf[place];
+        }
+
+        public static string CharToRemove(this string value)
+        {
+            return Regex.Replace(value.ToString(), @"\(|\)|\,", string.Empty).Trim();
+        }
+
+        public static string CharToRemove(this string value, char c)
+        {
+            return Regex.Replace(value.ToString(), "@" + c, string.Empty).Trim();
+        }
+
+        public static string CharToRemove(this string value, string chars)
+        {
+            return Regex.Replace(value.ToString(), "@" + chars, string.Empty).Trim();
+        }
+
+        public static double Compare(this string x, string y)
+        {
+            int count = x.Length > y.Length ? x.Length : y.Length;
+            int hits = 0;
+            int j = 0;
+            int i;
+            for (i = 0; i <= x.Length - 1; i++)
+            {
+                if (x[i] == ' ') { i += 1; j = y.IndexOf(' ', j) + 1; hits += 1; }
+                while (j < y.Length && y[j] != ' ')
+                {
+                    if (x[i] == y[j])
+                    {
+                        hits += 1;
+                        j += 1;
+                        break;
+                    }
+                    else
+                    {
+                        j += 1;
+                    }
+                }
+                if (!(j < y.Length && y[j] != ' '))
+                {
+                    j -= 1;
+                }
+            }
+            return Math.Round((double)(hits / count), 2);
+        }
+
+        public static bool Contains(this string source, string toCheck, StringComparison comp)
+        {
+            return source != null && toCheck != null && source.IndexOf(toCheck, comp) >= 0;
+        }
+
+        public static object DbNullIfNullOrEmpty<T>(this T str)
+        {
+            return !string.IsNullOrEmpty(ToString(str)) ? str : (object)DBNull.Value;
+        }
+
+        public static string GetLastString(this string strLine, char c)
+        {
+            int start = strLine.LastIndexOf(c);
+            int end = strLine.Length;
+            return strLine.Substring(start, end - start);
+        }
+
+        public static string GetMonthName(this int monthNumber) =>
+           new DateTime(1990, monthNumber, 1).ToString("MMMM");
+
         public static int GetMonthNumber(this string monthName)
         {
             return Convert.ToDateTime("01-" + monthName + "-2011").Month;
@@ -30,6 +197,30 @@ namespace JExtensions.Extensions
         public static int GetMonthNumber(this Month month)
         {
             return (int)month;
+        }
+
+        public static string GetSplitLastString(this string strLine)
+        {
+            char[] delimiters = new char[] { '/', '\\' };
+            string[] parts = strLine.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+            int lastIndex = parts.Length - 1;
+            return parts[lastIndex];
+        }
+
+        public static bool GreaterThen<T>(this T value, T x)
+        {
+            return Comparer<T>.Default.Compare(value, x) > 0;
+        }
+
+        public static int IndexOf(this string value, char c, int nth)
+        {
+            int index = -1;
+            for (int i = 0; i < nth; i++)
+            {
+                index = value.IndexOf(c, index + 1);
+                if (index == -1) break;
+            }
+            return index;
         }
 
         public static int IndexOfNth(this string str, char c, int n)
@@ -50,8 +241,62 @@ namespace JExtensions.Extensions
             return Equals(value, default(T));
         }
 
-        public static string GetMonthName(this int monthNumber) =>
-           new DateTime(1990, monthNumber, 1).ToString("MMMM");
+        public static bool IsValidEmail(this string emailAddress)
+        {
+            const string pattern = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+
+            return Regex.IsMatch(emailAddress, pattern);
+        }
+
+        public static string Left(this string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+            return value.Length > maxLength ? value.Substring(0, maxLength) : value;
+        }
+
+        public static bool LessThen<T>(this T value, T x)
+        {
+            return Comparer<T>.Default.Compare(value, x) < 0;
+        }
+
+        public static IEnumerable<string> SortByLength(this IEnumerable<string> e)
+        {
+            // Use LINQ to sort the array received and return a copy.
+            var sorted = from s in e
+                         orderby s.Length ascending
+                         select s;
+            return sorted;
+        }
+
+        public static IEnumerable<string> OddItems(this List<string> list)
+        {
+            return list.Where((x, i) => i % 2 != 0);
+        }
+
+        public static IEnumerable<string> EvenItems(this List<string> list)
+        {
+            return list.Where((x, i) => i % 2 == 0);
+        }
+
+        public static bool In<T>(this T source, params T[] list)
+        {
+            return list.Contains(source);
+        }
+
+        public static IEnumerable<TSource> Between<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult lowest, TResult highest) where TResult : IComparable<TResult>
+        {
+            return source.OrderBy(selector).
+                SkipWhile(s => selector.Invoke(s).CompareTo(lowest) < 0).
+                TakeWhile(s => selector.Invoke(s).CompareTo(highest) <= 0);
+        }
+
+        public static HumanName ToHumanName(this string humanName)
+        {
+            return new HumanName(humanName);
+        }
 
         public static string RemoveAndReplace(this string strLine, int pos1, int pos2)
         {
@@ -63,113 +308,28 @@ namespace JExtensions.Extensions
             return strLine;
         }
 
-        public static string ByteSize(this long byteLength)
-        {
-            string[] suf = { "Byte", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
-            if (byteLength == 0)
-                return "0" + suf[0];
-            long bytes = Math.Abs(byteLength);
-            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
-            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
-            return (Math.Sign(byteLength) * num).ToString() + suf[place];
-        }
-
-        public static decimal ToDecimal(this object value)
-        {
-            switch (value)
-            {
-                case "":
-                case " ":
-                case "undefined":
-                case "UNDEFINED":
-                case "null":
-                case "NULL":
-                case null:
-                    return default;
-
-                default:
-                    if (value == DBNull.Value)
-                    {
-                        return default;
-                    }
-                    else if (value is int || value is double || value is float)
-                    {
-                        return (decimal)value;
-                    }
-                    else if (value is string)
-                    {
-                        var output = RemoveInvalidChar(value.ToString());
-                        decimal.TryParse(output, out decimal result);
-                        return result;
-                    }
-                    else
-                    {
-                        _ = 0;
-                    }
-                    break;
-            }
-            return default;
-        }
-
-        public static string GetLastString(this string strLine, char c)
-        {
-            int start = strLine.LastIndexOf(c);
-            int end = strLine.Length;
-            return strLine.Substring(start, end - start);
-        }
-
-        public static string AppendDateTimeStamp<T>(this string value)
-        {
-            return value == ""
-                ? string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", "", DateTime.Now)
-                : string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", value, DateTime.Now);
-        }
-
-        public static string GetSplitLastString(this string strLine)
-        {
-            char[] delimiters = new char[] { '/', '\\' };
-            string[] parts = strLine.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-            int lastIndex = parts.Length - 1;
-            return parts[lastIndex];
-        }
-
         public static string RemoveInvalidChar(this string value)
         {
             return Regex.Replace(value.ToString(), @"\(|\)|\,", string.Empty).Trim();
         }
 
-        public static object DbNullIfNullOrEmpty<T>(this T str)
+        public static string RemoveLastChar(this string value)
         {
-            return !string.IsNullOrEmpty(ToString(str)) ? str : (object)DBNull.Value;
+            return value.Substring(0, value.Length - 1);
         }
 
-        public static int IndexOf(this string value, char c, int nth)
+        public static string RemoveLastChar(this string value, int numberOfCharactorsToRemove)
         {
-            int index = -1;
-            for (int i = 0; i < nth; i++)
-            {
-                index = value.IndexOf(c, index + 1);
-                if (index == -1) break;
-            }
-            return index;
-        }
-
-        public static string Left(this string value, int maxLength)
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                return value.Length > maxLength ? value.Substring(0, maxLength) : value;
-            }
-            return value;
+            return value.Substring(0, value.Length - numberOfCharactorsToRemove);
         }
 
         public static string Right(this string value, int maxLength)
         {
-            if (!string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
-                return value.Length > maxLength ? value.Substring(value.Length - maxLength, maxLength) : value;
+                return value;
             }
-            return value;
+            return value.Length > maxLength ? value.Substring(value.Length - maxLength, maxLength) : value;
         }
 
         public static string Split(this string value, int index)
@@ -187,22 +347,77 @@ namespace JExtensions.Extensions
             return value.Split(delimiters.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public static string ToCapitalise(this string value)
+        public static string SplitLastIndexOf(this string strLine, char c)
+        {
+            int start = strLine.LastIndexOf(c);
+            int end = strLine.Length;
+            return strLine.Substring(start, end - start);
+        }
+
+        public static string SplitLastOrDefault(this string strLine, string chars)
+        {
+            return strLine.Split(chars).LastOrDefault();
+        }
+
+        public static string Strip<T>(this T value)
+        {
+            var regexSearch = $"{new string(Path.GetInvalidFileNameChars())}{new string(Path.GetInvalidPathChars())}";
+            Regex r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
+            return r.Replace(ToString(value), "");
+        }
+
+        public static string ToTitleCase(this string value)
         {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value.ToLower());
         }
 
+        public static decimal ToDecimal(this object value)
+        {
+            return value == DBNull.Value
+                || value == null
+                || value.ToString() == ""
+                || value.ToString() == "null"
+                ? 0
+                : Convert.ToDecimal(CharToRemove(value.ToString()));
+        }
+
+        public static float ToFloat(this object value)
+        {
+            return value == DBNull.Value
+                || value == null
+                || value.ToString() == ""
+                || value.ToString() == "null"
+                ? 0
+                : float.Parse(CharToRemove(value.ToString()), CultureInfo.InvariantCulture.NumberFormat);
+        }
+
         public static string ToString(this object value)
         {
-            if (value != null && value != DBNull.Value)
+            switch (value)
             {
-                string x = value.ToString();
-                return x == "null"
-                          || x == "undefined"
-                    ? string.Empty
-                    : x;
+                case null:
+                    return string.Empty;
+
+                case DateTime _:
+                    return DateTime.Now.ToString();
+
+                default:
+                    if (value == DBNull.Value)
+                    {
+                        return string.Empty;
+                    }
+                    else if (value is string)
+                    {
+                        string v = value.ToString();
+                        if (v == "" || v == "null" || v == "undefined" || v == " ")
+                        {
+                            return string.Empty;
+                        }
+                    }
+
+                    break;
             }
-            return string.Empty;
+            return value.ToString();
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using JExtensions.Constants;
 using JExtensions.Extensions;
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.IO;
+using System.Data;
 using System.IO.Compression;
+using System.IO;
+using System;
 
 namespace JExtensions.DatabaseContext
 {
@@ -77,7 +77,7 @@ namespace JExtensions.DatabaseContext
         {
             try
             {
-                string columns = Constants.Constant.TableColumn;
+                string columns = Constants.Constants.TableColumn;
                 lines.Insert(0, columns);
                 //CREATE _tempFILE
                 //GZip.CreateFile(lines, TempFile, false, true);
@@ -90,10 +90,10 @@ namespace JExtensions.DatabaseContext
 
                 SqlContext sqlContext = new SqlContext();
                 //sqlContext.ExecuteQuery("Truncate Table _temp" + Constants._TableName);
-                sqlContext.BulkInsert(dataTable, "_temp" + Constant.TableName);
+                sqlContext.BulkInsert(dataTable, "_temp" + Constants.Constants.TableName);
                 SqlCommand cmd = new SqlCommand
                 {
-                    CommandText = Constant.INSERT_DATATABLE,
+                    CommandText = Constants.Constants.INSERT_DATATABLE,
                     CommandType = CommandType.StoredProcedure,
                     CommandTimeout = 0
                 };
@@ -125,7 +125,7 @@ namespace JExtensions.DatabaseContext
                 dbContext.BulkInsert(dataTable, "_temp" + tableName);
                 SqlCommand cmd = new SqlCommand
                 {
-                    CommandText = Constant.INSERT_DATATABLE,
+                    CommandText = Constants.Constants.INSERT_DATATABLE,
                     CommandType = CommandType.StoredProcedure,
                     CommandTimeout = 0
                 };

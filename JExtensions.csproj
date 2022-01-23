@@ -44,15 +44,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\Contant.cs" />
+    <Compile Include="Constants\DateFormats.cs" />
     <Compile Include="DatabaseContext\ColumnMapping.cs" />
     <Compile Include="DatabaseContext\FtpContext.cs" />
     <Compile Include="DatabaseContext\GZipFileReader.cs" />
     <Compile Include="DatabaseContext\SqlContext.cs" />
     <Compile Include="DatabaseContext\ExcelContext.cs" />
     <Compile Include="Enum\DateFormat.cs" />
+    <Compile Include="Enum\Month.cs" />
     <Compile Include="Extensions\DataTableExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\HumanName.cs" />
     <Compile Include="Extensions\ProgressBar.cs" />
+    <Compile Include="Enum\Quote.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
