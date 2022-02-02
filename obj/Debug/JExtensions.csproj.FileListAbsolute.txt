@@ -4,3 +4,7 @@ C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExten
 C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExtensions.csproj.CoreCompileInputs.cache
 C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExtensions.dll
 C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExtensions.pdb
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\bin\Debug\Excel.dll
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\bin\Debug\Excel.pdb
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExtensions.csproj.CopyComplete

@@ -1,4 +1,5 @@
-﻿using JExtensions.Enum;
+﻿using JExtensions.Constants;
+using JExtensions.Enum;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,29 +11,52 @@ namespace JExtensions.Extensions
 {
     public static class StringExtensions
     {
+        public static string AppendDateStamp<T>(this T value, Formats formats)
+        {
+            switch (formats)
+            {
+                case Formats.Date:
+                    return AddDateStamp(value);
+
+                default:
+                    return value.AddDateStamp();
+            }
+        }
+
         public static string AddDateStamp<T>(this T value)
         {
-            string x = ToString(value);
-            if (x == "")
-            {
-                return string.Format("{0}{1:_yyyyMMdd}", "", DateTime.Now);
-            }
-            return string.Format("{0}{1:_yyyyMMdd}", value, DateTime.Now);
+            var stamp = DateTime.Now.ToString(DateFormats.Date);
+            return value != null ? $"{value}_{stamp}" : stamp;
         }
 
         public static string AddDateTimeStamp<T>(this T value)
         {
-            string x = ToString(value);
-            if (x == "")
-            {
-                return string.Format("{0}{1:_yyyyMMddHHmmssffftt}", "", DateTime.Now);
-            }
-            return string.Format("{0}{1:_yyyyMMddHHmmssffftt}", value, DateTime.Now);
+            var stamp = DateTime.Now.ToString(DateFormats.DateTimeStamp);
+            return value != null ? $"{value}_{stamp}" : stamp;
         }
 
-        public static string AddQuote(this string value)
+        public static string AddTimeStamp<T>(this T value)
         {
-            return "[" + value + "]";
+            var stamp = DateTime.Now.ToString(DateFormats.Time);
+            return value != null ? $"{value}_{stamp}" : stamp;
+        }
+
+        public static string AddTime24Stamp<T>(this T value)
+        {
+            var stamp = DateTime.Now.ToString(DateFormats.Time24);
+            return value != null ? $"{value}_{stamp}" : stamp;
+        }
+
+        public static string AppendDateTimeStamp<T>(this string value)
+        {
+            return value == ""
+                ? string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", "", DateTime.Now)
+                : string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", value, DateTime.Now);
+        }
+
+        public static string AddQuote(this string value, string left, string right)
+        {
+            return $"{left}{value}{right}";
         }
 
         public static string AddQuote(this string value, Quote quote)
@@ -51,11 +75,11 @@ namespace JExtensions.Extensions
                 case Quote.SmallBraket:
                     return "(" + value + ")";
 
-                case Quote.None:
-                    return value;
+                case Quote.SquareBraket:
+                    return "[" + value + "]";
 
                 default:
-                    return "[" + value + "]";
+                    return value;
             }
         }
 
@@ -71,57 +95,17 @@ namespace JExtensions.Extensions
             return string.Join(joinWith.ToString(), parts.Select(x => x.AddQuote(quote)).ToArray());
         }
 
-        public static string AddTimeStamp<T>(this T value)
-        {
-            string x = ToString(value);
-            if (x == "")
-            {
-                return string.Format("{0}{1: HH:mm:ss}", "", DateTime.Now);
-            }
-            return string.Format("{0}{1: HH:mm:ss}", value, DateTime.Now);
-        }
-
-        public static string AddTimeStamp<T>(this T value, bool AMPM)
-        {
-            if (AMPM)
-            {
-                string x = ToString(value);
-                if (x == "")
-                {
-                    return string.Format("{0}{1: hh:mm:ss}", "", DateTime.Now);
-                }
-                return string.Format("{0}{1: hh:mm:ss}", value, DateTime.Now);
-            }
-            else
-            {
-                return AddTimeStamp(value);
-            }
-        }
-
-        public static string AppendDateTimeStamp<T>(this string value)
-        {
-            return value == ""
-                ? string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", "", DateTime.Now)
-                : string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", value, DateTime.Now);
-        }
-
         public static bool Between<T>(this T value, T x, T y)
         {
             return Comparer<T>.Default.Compare(value, x) >= 0
                 && Comparer<T>.Default.Compare(value, y) <= 0;
         }
 
-        public static string ToMemorySize(this long byteLength)
+        public static IEnumerable<TSource> Between<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult lowest, TResult highest) where TResult : IComparable<TResult>
         {
-            string[] suf = { "Byte", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
-            if (byteLength == 0)
-            {
-                return "0" + suf[0];
-            }
-            long bytes = Math.Abs(byteLength);
-            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
-            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
-            return (Math.Sign(byteLength) * num).ToString() + suf[place];
+            return source.OrderBy(selector).
+                SkipWhile(s => selector.Invoke(s).CompareTo(lowest) < 0).
+                TakeWhile(s => selector.Invoke(s).CompareTo(highest) <= 0);
         }
 
         public static string CharToRemove(this string value)
@@ -179,6 +163,11 @@ namespace JExtensions.Extensions
             return !string.IsNullOrEmpty(ToString(str)) ? str : (object)DBNull.Value;
         }
 
+        public static IEnumerable<string> EvenItems(this IEnumerable<string> list)
+        {
+            return list.Where((x, i) => i % 2 == 0);
+        }
+
         public static string GetLastString(this string strLine, char c)
         {
             int start = strLine.LastIndexOf(c);
@@ -210,6 +199,32 @@ namespace JExtensions.Extensions
         public static bool GreaterThen<T>(this T value, T x)
         {
             return Comparer<T>.Default.Compare(value, x) > 0;
+        }
+
+        public static bool In<T>(this T source, params T[] list)
+        {
+            return list.Contains(source);
+        }
+
+        public static bool In<T>(this T source, IEnumerable<T> list)
+        {
+            return list.Contains(source);
+        }
+
+        public static bool NotIn<T>(this T source, params T[] list)
+        {
+            return list.Contains(source) == false;
+        }
+
+        public static bool NotIn<T>(this T source, IEnumerable<T> list)
+        {
+            return list.Contains(source) == false;
+        }
+
+        public static bool IsAlphaNumeric(this string strToCheck)
+        {
+            Regex rg = new Regex(@"^[a-zA-Z0-9\s,]{6,}$");
+            return rg.IsMatch(strToCheck);
         }
 
         public static int IndexOf(this string value, char c, int nth)
@@ -262,40 +277,9 @@ namespace JExtensions.Extensions
             return Comparer<T>.Default.Compare(value, x) < 0;
         }
 
-        public static IEnumerable<string> SortByLength(this IEnumerable<string> e)
-        {
-            // Use LINQ to sort the array received and return a copy.
-            var sorted = from s in e
-                         orderby s.Length ascending
-                         select s;
-            return sorted;
-        }
-
         public static IEnumerable<string> OddItems(this List<string> list)
         {
             return list.Where((x, i) => i % 2 != 0);
-        }
-
-        public static IEnumerable<string> EvenItems(this List<string> list)
-        {
-            return list.Where((x, i) => i % 2 == 0);
-        }
-
-        public static bool In<T>(this T source, params T[] list)
-        {
-            return list.Contains(source);
-        }
-
-        public static IEnumerable<TSource> Between<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult lowest, TResult highest) where TResult : IComparable<TResult>
-        {
-            return source.OrderBy(selector).
-                SkipWhile(s => selector.Invoke(s).CompareTo(lowest) < 0).
-                TakeWhile(s => selector.Invoke(s).CompareTo(highest) <= 0);
-        }
-
-        public static HumanName ToHumanName(this string humanName)
-        {
-            return new HumanName(humanName);
         }
 
         public static string RemoveAndReplace(this string strLine, int pos1, int pos2)
@@ -332,6 +316,15 @@ namespace JExtensions.Extensions
             return value.Length > maxLength ? value.Substring(value.Length - maxLength, maxLength) : value;
         }
 
+        public static IEnumerable<string> SortByLength(this IEnumerable<string> e)
+        {
+            // Use LINQ to sort the array received and return a copy.
+            var sorted = from s in e
+                         orderby s.Length ascending
+                         select s;
+            return sorted;
+        }
+
         public static string Split(this string value, int index)
         {
             return value.Split(new char[] { '/', '-', ' ', '\\', ',' }, StringSplitOptions.RemoveEmptyEntries)[index];
@@ -366,11 +359,6 @@ namespace JExtensions.Extensions
             return r.Replace(ToString(value), "");
         }
 
-        public static string ToTitleCase(this string value)
-        {
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value.ToLower());
-        }
-
         public static decimal ToDecimal(this object value)
         {
             return value == DBNull.Value
@@ -389,6 +377,24 @@ namespace JExtensions.Extensions
                 || value.ToString() == "null"
                 ? 0
                 : float.Parse(CharToRemove(value.ToString()), CultureInfo.InvariantCulture.NumberFormat);
+        }
+
+        public static HumanName ToHumanName(this string humanName)
+        {
+            return new HumanName(humanName);
+        }
+
+        public static string ToMemorySize(this long byteLength)
+        {
+            string[] suf = { "Byte", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
+            if (byteLength == 0)
+            {
+                return "0" + suf[0];
+            }
+            long bytes = Math.Abs(byteLength);
+            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return (Math.Sign(byteLength) * num).ToString() + suf[place];
         }
 
         public static string ToString(this object value)
@@ -418,6 +424,11 @@ namespace JExtensions.Extensions
                     break;
             }
             return value.ToString();
+        }
+
+        public static string ToTitleCase(this string value)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value.ToLower());
         }
     }
 }

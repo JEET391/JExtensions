@@ -6,7 +6,6 @@
         CurlyBraket,
         SingleQuote,
         DoubleQuote,
-        SmallBraket,
-        None
-    };
+        SmallBraket
+    }
 }

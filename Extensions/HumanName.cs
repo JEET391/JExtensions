@@ -1,4 +1,6 @@
-﻿namespace JExtensions.Extensions
+﻿using System.Linq;
+
+namespace JExtensions.Extensions
 {
     public class HumanName
     {
@@ -7,13 +9,25 @@
         public string MiddleName { get; set; }
         public string Title { get; set; }
 
+        public string FullName
+        {
+            get
+            {
+                return string.Join(" ", new string[] { FirstName, MiddleName, LastName });
+            }
+        }
+
         public HumanName(string fullName)
+
         {
             if (string.IsNullOrEmpty(fullName))
             {
                 return;
             }
-            var parts = fullName.Split();
+            var parts = fullName
+                .Where(c => char.IsLetter(c)).ToString().Split(". ")
+                .Select(p => p.Trim()).ToArray();
+
             switch (parts.Length)
             {
                 case 1:

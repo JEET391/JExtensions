@@ -11,4 +11,15 @@
         public static string Time = "hh:mm:ss";
         public static string Time24 = "HH:mm:ss";
     }
+
+    public enum Formats
+    {
+        Date,
+        DateTime,
+        DateTime24,
+        DateTimeStamp,
+        DateTimeStamp24,
+        Time,
+        Time24,
+    }
 }

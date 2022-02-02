@@ -6,6 +6,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace JExtensions.Extensions
 {
@@ -36,6 +37,15 @@ namespace JExtensions.Extensions
             dataTable.AcceptChanges();
         }
 
+        public static IEnumerable<TSource> Between<TSource, TResult>
+            (this IEnumerable<TSource> source, Func<TSource, TResult> selector,
+            TResult lowest, TResult highest) where TResult : IComparable<TResult>
+        {
+            return source.OrderBy(selector).
+                SkipWhile(s => selector.Invoke(s).CompareTo(lowest) < 0).
+                TakeWhile(s => selector.Invoke(s).CompareTo(highest) <= 0);
+        }
+
         public static void ChangeType<T>(this DataTable dataTable, string ColumnName, Type type)
         {
             foreach (DataRow dr in dataTable.Rows)
@@ -51,11 +61,6 @@ namespace JExtensions.Extensions
         public static IEnumerable<T> ColumnData<T>(this DataTable dt, string columnName)
         {
             return dt.AsEnumerable().Select(x => x.Field<T>(columnName)).ToArray();
-        }
-
-        public static IEnumerable<object> ColumnData(this DataTable dt, string columnName)
-        {
-            return dt.AsEnumerable().Select(x => x[columnName]).ToArray();
         }
 
         public static IEnumerable<T> ColumnData<T>(this DataTable dt, int columnIndex)
@@ -225,6 +230,15 @@ namespace JExtensions.Extensions
             return view.ToTable(dataTable.TableName, false, columnNames.Split(','));
         }
 
+        public static IEnumerable<string> SortByLength(this IEnumerable<string> e)
+        {
+            // Use LINQ to sort the array received and return a copy.
+            var sorted = from s in e
+                         orderby s.Length ascending
+                         select s;
+            return sorted;
+        }
+
         public static DataTable ToDataTable<T>(this IList<T> list)
         {
             DataTable dataTable = new DataTable(typeof(T).Name);
@@ -283,25 +297,56 @@ namespace JExtensions.Extensions
             return data;
         }
 
-        public static List<string> ValidateColumn(this DataTable dataTable, List<string> columnList, bool mapping = false)
+        public static IEnumerable<string> GetColumnsNotInDataTable(this
+            DataTable dataTable, List<string> hasColumns, bool mapping = false)
         {
             if (dataTable.Columns.Contains("NoName"))
             {
                 dataTable.Columns.Remove("NoName");
             }
-            var dataTableColumns = (from DataColumn dc in dataTable.Columns select dc.ColumnName.ToUpper());
-            var columns = mapping ? columnList.EvenItems().Select(x => x.ToUpper()) : columnList.Select(x => x.ToUpper());
-            var invalidColumns = (from x in columns where !x.In(dataTableColumns.ToArray()) select x);
-            return invalidColumns.ToList();
+
+            var dataTableColumns = dataTable.GetColumnNames();
+
+            var columns = mapping
+                ? hasColumns.EvenItems().Select(x => x.ToUpper())
+                : hasColumns.Select(x => x.ToUpper());
+            return from c in columns where c.NotIn(dataTableColumns) select c;
         }
 
-        public static List<DateTime> ValidateDate(this DataTable dataTable, string column, DateTime fromDate, DateTime toDate, DateFormat dateFormat)
+        public static IEnumerable<string> GetColumnNames(this DataColumnCollection columns)
         {
+            return from DataColumn dc in columns select dc.ColumnName.ToUpper();
+        }
+
+        public static IEnumerable<string> GetColumnNames(this DataTable dataTable)
+        {
+            return from DataColumn dc in dataTable.Columns select dc.ColumnName.ToUpper();
+        }
+
+        public static IEnumerable<DateTime> ValidateDate(this DataTable dataTable,
+            string column, DateTime fromDate, DateTime toDate, DateFormat dateFormat)
+        {
+            if (dataTable is null)
+            {
+                throw new ArgumentNullException(nameof(dataTable));
+            }
+
+            if (string.IsNullOrEmpty(column))
+            {
+                throw new ArgumentException($"'{nameof(column)}' cannot be null or empty.", nameof(column));
+            }
+
             try
             {
-                var strDates = dataTable.ColumnData(column).Distinct();
-                var strTransactionDates = from x in strDates select Convert.ToDateTime(x.ToString().GetDate(dateFormat, DateFormat.MMDDYY));
-                return (from t in strTransactionDates where (t.Date < fromDate || t.Date > toDate) select t).ToList();
+                var strDates = dataTable.ColumnData<object>(column).Distinct();
+
+                var strTransactionDates = from x in strDates
+                                          where x != null
+                                          select Convert.ToDateTime(x.ToString()
+                                          .GetDate(dateFormat, DateFormat.MMDDYY));
+                return from t in strTransactionDates
+                       where t.Between(fromDate, toDate)
+                       select t;
             }
             catch
             {
@@ -309,12 +354,18 @@ namespace JExtensions.Extensions
             }
         }
 
-        public static List<DateTime> ValidateDate(this List<string> strDates, string column, DateTime fromDate, DateTime toDate, DateFormat dateFormat)
+        public static IEnumerable<DateTime> ValidateDate(this List<string> strDates,
+            DateTime fromDate, DateTime toDate, DateFormat dateFormat)
         {
             try
             {
-                var strTransactionDates = from x in strDates select Convert.ToDateTime(x.GetDate(dateFormat, DateFormat.MMDDYY));
-                return (from t in strTransactionDates where (t.Date < fromDate || t.Date > toDate) select t).ToList();
+                var strTransactionDates =
+                from x in strDates
+                select
+                Convert.ToDateTime(x.GetDate(dateFormat, DateFormat.MMDDYY));
+                return from t in strTransactionDates
+                       where t.Between(fromDate, toDate)
+                       select t;
             }
             catch
             {
