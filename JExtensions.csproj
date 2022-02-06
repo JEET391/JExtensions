@@ -47,24 +47,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\Contant.cs" />
-    <Compile Include="Constants\DateFormats.cs" />
     <Compile Include="DatabaseContext\ColumnMapping.cs" />
     <Compile Include="DatabaseContext\FtpContext.cs" />
     <Compile Include="DatabaseContext\GZipFileReader.cs" />
     <Compile Include="DatabaseContext\SqlContext.cs" />
     <Compile Include="DatabaseContext\ExcelContext.cs" />
-    <Compile Include="Enum\DateFormat.cs" />
-    <Compile Include="Enum\Month.cs" />
+    <Compile Include="Enums\MonthsOfYear.cs" />
     <Compile Include="Extensions\DataTableExtensions.cs" />
-    <Compile Include="Extensions\DateFormats.cs" />
+    <Compile Include="Constants\DateFormats.cs" />
     <Compile Include="Extensions\DateTimeExtender.cs" />
-    <Compile Include="Enum\Formats.cs" />
+    <Compile Include="Enums\Formats.cs" />
     <Compile Include="Extensions\HumanName.cs" />
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\ProgressBar.cs" />
-    <Compile Include="Enum\Quote.cs" />
+    <Compile Include="Enums\Quote.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

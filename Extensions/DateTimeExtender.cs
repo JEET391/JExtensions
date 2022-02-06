@@ -1,75 +1,14 @@
-﻿using JExtensions.Enum;
+﻿using JExtensions.Constants;
+using JExtensions.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using static JExtensions.Extensions.Enum.DateTimeExtender;
 
 namespace JExtensions.Extensions
 {
-    public static partial class DateTimeExtender
+    public static class DateTimeExtender
     {
-        public static string ToString(this DateTime value, Formats formats)
-        {
-            string dateformats;
-            switch (formats)
-            {
-                case Formats.Date:
-                    dateformats = DateFormats.Date;
-                    break;
-
-                case Formats.DateTime:
-                    dateformats = DateFormats.DateTime;
-                    break;
-
-                case Formats.DateTime24:
-                    dateformats = DateFormats.DateTime24;
-                    break;
-
-                case Formats.DateTimeStamp:
-                    dateformats = DateFormats.DateTimeStamp;
-                    break;
-
-                case Formats.DateTimeStamp24:
-                    dateformats = DateFormats.DateTimeStamp24;
-                    break;
-
-                case Formats.Month:
-                    dateformats = DateFormats.Month;
-                    break;
-
-                case Formats.Time:
-                    dateformats = DateFormats.Time;
-                    break;
-
-                case Formats.Time24:
-                    dateformats = DateFormats.Time24;
-                    break;
-
-                case Formats.ddmmyyyy:
-                    dateformats = DateFormats.ddmmyyyy;
-                    break;
-
-                case Formats.mmddyyy:
-                    dateformats = DateFormats.mmddyyyy;
-                    break;
-
-                case Formats.yyyymmdd:
-                    dateformats = DateFormats.yyyymmdd;
-                    break;
-
-                default:
-                    dateformats = DateFormats.Date;
-                    break;
-            }
-            return value.ToString(dateformats);
-        }
-
-        public static string GetMonthName(this DateTime dateTime)
-        {
-            return dateTime.ToString(DateFormats.Month);
-        }
-
         /// <summary>
         /// Convert DateTime to string
         /// </summary>
@@ -88,15 +27,15 @@ namespace JExtensions.Extensions
         }
 
         /// <summary>
-        /// Default DateInputFormat DDMMYY and OutputFormat YYMMDD
+        /// Default DateInputFormat DDMMYY and OutputFormat yyymmdd
         /// </summary>
         /// <param name="strDate"></param>
         /// <param name="inputFormat"></param>
         /// <param name="outputFormat"></param>
         /// <param name="seperator"></param>
         /// <returns></returns>
-        public static string GetDate(this string strDate, DateFormat inputFormat = DateFormat.DDMMYY,
-            DateFormat outputFormat = DateFormat.YYMMDD, char outputDateSeperator = '-', string inputDatePattern = "")
+        public static string GetDate(this string strDate, Formats inputFormat,
+            Formats outputFormat, char outputDateSeperator = '-', string inputDatePattern = "")
         {
             try
             {
@@ -106,7 +45,7 @@ namespace JExtensions.Extensions
                 }
                 string[] parts = strDate.Split(new char[] { '/', '-', ' ', '_' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Count() == 1 && double.TryParse(strDate, out double OADate))
-                    return DateTime.FromOADate(double.Parse(strDate)).ToShortDateString().GetDate(DateFormat.MMDDYY, outputFormat);
+                    return DateTime.FromOADate(double.Parse(strDate)).ToShortDateString().GetDate(Formats.mmddyyy, outputFormat);
 
                 string day = string.Empty;
                 string month = string.Empty;
@@ -114,25 +53,25 @@ namespace JExtensions.Extensions
 
                 switch (inputFormat)
                 {
-                    case DateFormat.DDMMYY:
+                    case Formats.ddmmyyyy:
                         day = parts[0];
                         month = parts[1];
                         year = parts[2];
                         break;
 
-                    case DateFormat.MMDDYY:
+                    case Formats.mmddyyy:
                         month = parts[0];
                         day = parts[1];
                         year = parts[2];
                         break;
 
-                    case DateFormat.YYMMDD:
+                    case Formats.yyyymmdd:
                         year = parts[0];
                         month = parts[1];
                         day = parts[2];
                         break;
 
-                    case DateFormat.PATTERN:
+                    case Formats.pattern:
                         DateTime date;
                         DateTime.TryParseExact(strDate, inputDatePattern, CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
                         month = date.Month.ToString();
@@ -146,15 +85,15 @@ namespace JExtensions.Extensions
                 }
                 switch (outputFormat)
                 {
-                    case DateFormat.DDMMYY:
+                    case Formats.ddmmyyyy:
                         strDate = $"{day}{outputDateSeperator}{month}{outputDateSeperator}{year}";
                         break;
 
-                    case DateFormat.MMDDYY:
+                    case Formats.mmddyyy:
                         strDate = $"{month}{outputDateSeperator}{day}{outputDateSeperator}{year}";
                         break;
 
-                    case DateFormat.YYMMDD:
+                    case Formats.yyyymmdd:
                         strDate = $"{year}{outputDateSeperator}{month}{outputDateSeperator}{day}";
                         break;
                 }
@@ -167,9 +106,19 @@ namespace JExtensions.Extensions
             }
         }
 
-        public static DateTime GetDateTime(this string dateString, DateFormat input)
+        public static DateTime GetDateTime(this string dateString, Formats input)
         {
-            return Convert.ToDateTime(GetDate(dateString, input, DateFormat.MMDDYY));
+            return Convert.ToDateTime(GetDate(dateString, input, Formats.mmddyyy));
+        }
+
+        public static string GetMonthName(this DateTime dateTime)
+        {
+            return Enum.GetName(typeof(MonthsOfYear), dateTime.Month);
+        }
+
+        public static string GetMonthName(this int month)
+        {
+            return Enum.GetName(typeof(MonthsOfYear), month);
         }
 
         public static bool IsBetween(DateTime date, DateTime fromDate, DateTime toDate = default) => date >= fromDate && date <= toDate;
@@ -238,9 +187,65 @@ namespace JExtensions.Extensions
             }
         }
 
-        public static DateTime ToDate(this string strDate, DateFormat inputFormat = DateFormat.DDMMYY)
+        public static DateTime ToDate(this string strDate, Formats inputFormat)
         {
-            return Convert.ToDateTime(strDate.GetDate(inputFormat: inputFormat, outputFormat: DateFormat.MMDDYY));
+            return Convert.ToDateTime(strDate.GetDate(inputFormat, Formats.mmddyyy));
+        }
+
+        public static string ToString(this DateTime value, Formats formats)
+        {
+            string dateformats;
+            switch (formats)
+            {
+                case Formats.Date:
+                    dateformats = DateFormats.Date;
+                    break;
+
+                case Formats.DateTime:
+                    dateformats = DateFormats.DateTime;
+                    break;
+
+                case Formats.DateTime24:
+                    dateformats = DateFormats.DateTime24;
+                    break;
+
+                case Formats.DateTimeStamp:
+                    dateformats = DateFormats.DateTimeStamp;
+                    break;
+
+                case Formats.DateTimeStamp24:
+                    dateformats = DateFormats.DateTimeStamp24;
+                    break;
+
+                case Formats.Month:
+                    dateformats = DateFormats.Month;
+                    break;
+
+                case Formats.Time:
+                    dateformats = DateFormats.Time;
+                    break;
+
+                case Formats.Time24:
+                    dateformats = DateFormats.Time24;
+                    break;
+
+                case Formats.ddmmyyyy:
+                    dateformats = DateFormats.ddmmyyyy;
+                    break;
+
+                case Formats.mmddyyy:
+                    dateformats = DateFormats.mmddyyyy;
+                    break;
+
+                case Formats.yyyymmdd:
+                    dateformats = DateFormats.yyyymmdd;
+                    break;
+
+                default:
+                    dateformats = DateFormats.Date;
+                    break;
+            }
+            return value.ToString(dateformats);
         }
     }
 }

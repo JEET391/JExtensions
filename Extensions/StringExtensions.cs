@@ -1,12 +1,10 @@
-﻿using JExtensions.Constants;
-using JExtensions.Enum;
+﻿using JExtensions.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using static JExtensions.Extensions.Enum.DateTimeExtender;
 
 namespace JExtensions.Extensions
 {
@@ -14,7 +12,7 @@ namespace JExtensions.Extensions
     {
         public static string AppendDateTimeStamp(this string value, Formats formats)
         {
-            var stamp = DateTimeExtender.ToString(DateTime.Now, formats);
+            var stamp = DateTime.Now.ToString(formats);
             return value != null ? $"{value}_{stamp}" : stamp;
         }
 
@@ -61,15 +59,14 @@ namespace JExtensions.Extensions
 
         public static bool Between<T>(this T value, T x, T y)
         {
-            return Comparer<T>.Default.Compare(value, x) >= 0
-                && Comparer<T>.Default.Compare(value, y) <= 0;
+            return Comparer<T>.Default.Compare(value, x) >= 0 && Comparer<T>.Default.Compare(value, y) <= 0;
         }
 
         public static IEnumerable<TSource> Between<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector, TResult lowest, TResult highest) where TResult : IComparable<TResult>
         {
-            return source.OrderBy(selector).
-                SkipWhile(s => selector.Invoke(s).CompareTo(lowest) < 0).
-                TakeWhile(s => selector.Invoke(s).CompareTo(highest) <= 0);
+            return source.OrderBy(selector)
+                .SkipWhile(s => selector.Invoke(s).CompareTo(lowest) < 0)
+                .TakeWhile(s => selector.Invoke(s).CompareTo(highest) <= 0);
         }
 
         public static string CharToRemove(this string value)
@@ -137,19 +134,6 @@ namespace JExtensions.Extensions
             int start = strLine.LastIndexOf(c);
             int end = strLine.Length;
             return strLine.Substring(start, end - start);
-        }
-
-        public static string GetMonthName(this int monthNumber) =>
-           new DateTime(1990, monthNumber, 1).ToString("MMMM");
-
-        public static int GetMonthNumber(this string monthName)
-        {
-            return Convert.ToDateTime("01-" + monthName + "-2011").Month;
-        }
-
-        public static int GetMonthNumber(this Month month)
-        {
-            return (int)month;
         }
 
         public static string GetSplitLastString(this string strLine)

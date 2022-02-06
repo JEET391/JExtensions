@@ -8,3 +8,4 @@ C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\bin\Debug\Excel.
 C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\bin\Debug\ICSharpCode.SharpZipLib.dll
 C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\bin\Debug\Excel.pdb
 C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\obj\Debug\JExtensions.csproj.CopyComplete
+C:\Users\Jitendra Singh\OneDrive\GitHub\JExtensions\JExtensions\bin\Debug\JExtensions.dll.config

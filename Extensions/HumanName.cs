@@ -4,19 +4,6 @@ namespace JExtensions.Extensions
 {
     public class HumanName
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string MiddleName { get; set; }
-        public string Title { get; set; }
-
-        public string FullName
-        {
-            get
-            {
-                return string.Join(" ", new string[] { FirstName, MiddleName, LastName });
-            }
-        }
-
         public HumanName(string fullName)
         {
             if (string.IsNullOrEmpty(fullName))
@@ -54,6 +41,13 @@ namespace JExtensions.Extensions
                     }
                     break;
             }
+            FullName = fullName;
         }
+
+        public string FirstName { get; }
+        public string FullName { get; }
+        public string LastName { get; }
+        public string MiddleName { get; }
+        public string Title { get; }
     }
 }

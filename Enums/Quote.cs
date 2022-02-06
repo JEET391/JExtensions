@@ -1,4 +1,4 @@
-﻿namespace JExtensions.Enum
+﻿namespace JExtensions.Enums
 {
     public enum Quote
     {

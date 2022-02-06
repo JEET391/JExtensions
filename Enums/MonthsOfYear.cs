@@ -1,6 +1,6 @@
-﻿namespace JExtensions.Enum
+﻿namespace JExtensions.Enums
 {
-    public enum Month
+    public enum MonthsOfYear
     {
         January = 1,
         February = 2,

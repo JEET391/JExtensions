@@ -1,5 +1,5 @@
 ﻿using Excel;
-using JExtensions.Enum;
+using JExtensions.Enums;
 using JExtensions.Extensions;
 using Microsoft.VisualBasic.FileIO;
 using System;
@@ -63,27 +63,27 @@ namespace JExtensions.DatabaseContext
         private string WorkSheetName { get; set; }
         private List<string> WorkSheetNames { get; set; }
 
-        public string ExportToExcel(DataSet ds, string outputDirectory, string fileName, bool AddDateTimeStamp = true)
+        public string ExportToExcel(DataSet ds, string outputDirectory, string fileName, bool appendDateTimeStampInExportedFile)
         {
-            fileName = AddDateTimeStamp ? fileName.AppendDateTimeStamp(Extensions.Enum.DateTimeExtender.Formats.DateTimeStamp) : fileName;
+            fileName = appendDateTimeStampInExportedFile ? fileName.AppendDateTimeStamp(Formats.DateTimeStamp) : fileName;
             return ExportToExcel(ds, Path.Combine(outputDirectory, fileName + ".csv"));
         }
 
-        public string ExportToExcel(DataTable dt, string outputDirectory, string fileName, bool AddDateTimeStamp = true)
+        public string ExportToExcel(DataTable dt, string outputDirectory, string fileName, bool appendDateTimeStampInExportedFile)
         {
-            fileName = AddDateTimeStamp ? fileName.AppendDateTimeStamp(Extensions.Enum.DateTimeExtender.Formats.DateTimeStamp) : fileName;
+            fileName = appendDateTimeStampInExportedFile ? fileName.AppendDateTimeStamp(Formats.DateTimeStamp) : fileName;
             return ExportToExcel(dt, Path.Combine(outputDirectory, fileName + ".csv"));
         }
 
-        public string ExportToExcel(DataSet ds, string outputDirectory, string fileName, bool includeHeaders, bool AddDateTimeStamp, string delimiter, Quote quote)
+        public string ExportToExcel(DataSet ds, string outputDirectory, string fileName, bool includeHeaders, bool appendDateTimeStampInExportedFile, string delimiter, Quote quote)
         {
-            fileName = AddDateTimeStamp ? fileName.AppendDateTimeStamp(Extensions.Enum.DateTimeExtender.Formats.DateTimeStamp) : fileName;
+            fileName = appendDateTimeStampInExportedFile ? fileName.AppendDateTimeStamp(Formats.DateTimeStamp) : fileName;
             return ExportToExcel(ds, Path.Combine(outputDirectory, fileName + ".csv"), includeHeaders, delimiter, quote);
         }
 
-        public string ExportToExcel(DataTable dt, string outputDirectory, string fileName, bool includeHeaders, bool AddDateTimeStamp, string delimiter, Quote quote)
+        public string ExportToExcel(DataTable dt, string outputDirectory, string fileName, bool includeHeaders, bool appendDateTimeStampInExportedFile, string delimiter, Quote quote)
         {
-            fileName = AddDateTimeStamp ? fileName.AppendDateTimeStamp(Extensions.Enum.DateTimeExtender.Formats.DateTimeStamp) : fileName;
+            fileName = appendDateTimeStampInExportedFile ? fileName.AppendDateTimeStamp(Formats.DateTimeStamp) : fileName;
             return ExportToExcel(dt, Path.Combine(outputDirectory, fileName + ".csv"), includeHeaders, delimiter, quote);
         }
 

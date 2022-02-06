@@ -1,4 +1,4 @@
-﻿using JExtensions.Enum;
+﻿using JExtensions.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -323,8 +323,7 @@ namespace JExtensions.Extensions
             return from DataColumn dc in dataTable.Columns select dc.ColumnName.ToUpper();
         }
 
-        public static IEnumerable<DateTime> ValidateDate(this DataTable dataTable,
-            string column, DateTime fromDate, DateTime toDate, DateFormat dateFormat)
+        public static IEnumerable<DateTime> ValidateDate(this DataTable dataTable, string column, DateTime fromDate, DateTime toDate, Formats inputDateFormat)
         {
             if (dataTable is null)
             {
@@ -343,7 +342,7 @@ namespace JExtensions.Extensions
                 var strTransactionDates = from x in strDates
                                           where x != null
                                           select Convert.ToDateTime(x.ToString()
-                                          .GetDate(dateFormat, DateFormat.MMDDYY));
+                                          .GetDate(inputDateFormat, Formats.mmddyyy));
                 return from t in strTransactionDates
                        where t.Between(fromDate, toDate)
                        select t;
@@ -354,15 +353,14 @@ namespace JExtensions.Extensions
             }
         }
 
-        public static IEnumerable<DateTime> ValidateDate(this List<string> strDates,
-            DateTime fromDate, DateTime toDate, DateFormat dateFormat)
+        public static IEnumerable<DateTime> ValidateDate(this List<string> strDates, DateTime fromDate, DateTime toDate, Formats inputDateFormat)
         {
             try
             {
                 var strTransactionDates =
                 from x in strDates
                 select
-                Convert.ToDateTime(x.GetDate(dateFormat, DateFormat.MMDDYY));
+                Convert.ToDateTime(x.GetDate(inputDateFormat, Formats.mmddyyy));
                 return from t in strTransactionDates
                        where t.Between(fromDate, toDate)
                        select t;
