@@ -84,7 +84,7 @@ namespace JExtensions.DatabaseContext
         public string ExportToExcel(DataTable dt, string outputDirectory, string fileName, bool includeHeaders, bool AddDateTimeStamp, string delimiter, Quote quote)
         {
             fileName = AddDateTimeStamp ? fileName.AppendDateTimeStamp(Extensions.Enum.DateTimeExtender.Formats.DateTimeStamp) : fileName;
-            return ExportToExcel(dt, Path.Combine(outputDirectory, fileName + ".csv"), includeHeaders, AddDateTimeStamp, delimiter, quote);
+            return ExportToExcel(dt, Path.Combine(outputDirectory, fileName + ".csv"), includeHeaders, delimiter, quote);
         }
 
         public DataTable GetMappedTable(List<string> mappingList, DataTable dataTable)
@@ -459,7 +459,7 @@ namespace JExtensions.DatabaseContext
             return outputPath;
         }
 
-        private string ExportToExcel(DataTable dataTable, string outputPath, bool includeHeaders, bool AddDateTimeStamp, string delimiter, Quote quote)
+        private string ExportToExcel(DataTable dataTable, string outputPath, bool includeHeaders, string delimiter, Quote quote)
         {
             Directory.SetCurrentDirectory(Path.GetDirectoryName(outputPath));
             using (StreamWriter writer = File.CreateText(outputPath))
