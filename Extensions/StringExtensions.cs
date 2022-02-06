@@ -6,52 +6,16 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using static JExtensions.Extensions.Enum.DateTimeExtender;
 
 namespace JExtensions.Extensions
 {
     public static class StringExtensions
     {
-        public static string AppendDateStamp<T>(this T value, Formats formats)
+        public static string AppendDateTimeStamp(this string value, Formats formats)
         {
-            switch (formats)
-            {
-                case Formats.Date:
-                    return AddDateStamp(value);
-
-                default:
-                    return value.AddDateStamp();
-            }
-        }
-
-        public static string AddDateStamp<T>(this T value)
-        {
-            var stamp = DateTime.Now.ToString(DateFormats.Date);
+            var stamp = DateTimeExtender.ToString(DateTime.Now, formats);
             return value != null ? $"{value}_{stamp}" : stamp;
-        }
-
-        public static string AddDateTimeStamp<T>(this T value)
-        {
-            var stamp = DateTime.Now.ToString(DateFormats.DateTimeStamp);
-            return value != null ? $"{value}_{stamp}" : stamp;
-        }
-
-        public static string AddTimeStamp<T>(this T value)
-        {
-            var stamp = DateTime.Now.ToString(DateFormats.Time);
-            return value != null ? $"{value}_{stamp}" : stamp;
-        }
-
-        public static string AddTime24Stamp<T>(this T value)
-        {
-            var stamp = DateTime.Now.ToString(DateFormats.Time24);
-            return value != null ? $"{value}_{stamp}" : stamp;
-        }
-
-        public static string AppendDateTimeStamp<T>(this string value)
-        {
-            return value == ""
-                ? string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", "", DateTime.Now)
-                : string.Format("{0}{1:_yyyy_MM_dd_HH_mm_ss_fff_tt}", value, DateTime.Now);
         }
 
         public static string AddQuote(this string value, string left, string right)
@@ -153,9 +117,9 @@ namespace JExtensions.Extensions
             return Math.Round((double)(hits / count), 2);
         }
 
-        public static bool Contains(this string source, string toCheck, StringComparison comp)
+        public static bool Contains(this string text, string value, StringComparison comp)
         {
-            return source != null && toCheck != null && source.IndexOf(toCheck, comp) >= 0;
+            return text != null && value != null && text.IndexOf(value, comp) >= 0;
         }
 
         public static object DbNullIfNullOrEmpty<T>(this T str)
@@ -163,7 +127,7 @@ namespace JExtensions.Extensions
             return !string.IsNullOrEmpty(ToString(str)) ? str : (object)DBNull.Value;
         }
 
-        public static IEnumerable<string> EvenItems(this IEnumerable<string> list)
+        public static IEnumerable<T> EvenIndexItems<T>(this IEnumerable<T> list)
         {
             return list.Where((x, i) => i % 2 == 0);
         }
@@ -277,7 +241,7 @@ namespace JExtensions.Extensions
             return Comparer<T>.Default.Compare(value, x) < 0;
         }
 
-        public static IEnumerable<string> OddItems(this List<string> list)
+        public static IEnumerable<string> OddIndexItems(this IEnumerable<string> list)
         {
             return list.Where((x, i) => i % 2 != 0);
         }

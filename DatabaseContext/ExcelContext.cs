@@ -65,25 +65,25 @@ namespace JExtensions.DatabaseContext
 
         public string ExportToExcel(DataSet ds, string outputDirectory, string fileName, bool AddDateTimeStamp = true)
         {
-            fileName = AddDateTimeStamp ? fileName.AddDateTimeStamp() : fileName;
+            fileName = AddDateTimeStamp ? fileName.AppendDateTimeStamp(Extensions.Enum.DateTimeExtender.Formats.DateTimeStamp) : fileName;
             return ExportToExcel(ds, Path.Combine(outputDirectory, fileName + ".csv"));
         }
 
         public string ExportToExcel(DataTable dt, string outputDirectory, string fileName, bool AddDateTimeStamp = true)
         {
-            fileName = AddDateTimeStamp ? fileName.AddDateTimeStamp() : fileName;
+            fileName = AddDateTimeStamp ? fileName.AppendDateTimeStamp(Extensions.Enum.DateTimeExtender.Formats.DateTimeStamp) : fileName;
             return ExportToExcel(dt, Path.Combine(outputDirectory, fileName + ".csv"));
         }
 
         public string ExportToExcel(DataSet ds, string outputDirectory, string fileName, bool includeHeaders, bool AddDateTimeStamp, string delimiter, Quote quote)
         {
-            fileName = AddDateTimeStamp ? fileName.AddDateTimeStamp() : fileName;
+            fileName = AddDateTimeStamp ? fileName.AppendDateTimeStamp(Extensions.Enum.DateTimeExtender.Formats.DateTimeStamp) : fileName;
             return ExportToExcel(ds, Path.Combine(outputDirectory, fileName + ".csv"), includeHeaders, delimiter, quote);
         }
 
         public string ExportToExcel(DataTable dt, string outputDirectory, string fileName, bool includeHeaders, bool AddDateTimeStamp, string delimiter, Quote quote)
         {
-            fileName = AddDateTimeStamp ? fileName.AddDateTimeStamp() : fileName;
+            fileName = AddDateTimeStamp ? fileName.AppendDateTimeStamp(Extensions.Enum.DateTimeExtender.Formats.DateTimeStamp) : fileName;
             return ExportToExcel(dt, Path.Combine(outputDirectory, fileName + ".csv"), includeHeaders, AddDateTimeStamp, delimiter, quote);
         }
 
@@ -400,7 +400,7 @@ namespace JExtensions.DatabaseContext
                 dataTable.Columns.Remove("NoName");
             }
             var dataTableColumns = (from DataColumn dc in dataTable.Columns select dc.ColumnName.ToUpper());
-            var columns = mappedList.EvenItems().Select(x => x.ToUpper());
+            var columns = mappedList.EvenIndexItems().Select(x => x.ToUpper());
             var invalidColumns = (from x in columns where !x.In(dataTableColumns.ToArray()) select x);
             return invalidColumns.ToList();
         }
@@ -509,8 +509,8 @@ namespace JExtensions.DatabaseContext
 
         private DataTable GetMappedTable(DataTable fromDataTable, List<string> mappedList)
         {
-            var fromDataTableColumns = mappedList.EvenItems().ToList();
-            var toDataTableColumns = mappedList.OddItems().ToList();
+            var fromDataTableColumns = mappedList.EvenIndexItems().ToList();
+            var toDataTableColumns = mappedList.OddIndexItems().ToList();
             DataTable toDataTable = new DataTable();
             foreach (string column in toDataTableColumns)
             {

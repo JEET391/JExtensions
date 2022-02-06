@@ -308,7 +308,7 @@ namespace JExtensions.Extensions
             var dataTableColumns = dataTable.GetColumnNames();
 
             var columns = mapping
-                ? hasColumns.EvenItems().Select(x => x.ToUpper())
+                ? hasColumns.EvenIndexItems().Select(x => x.ToUpper())
                 : hasColumns.Select(x => x.ToUpper());
             return from c in columns where c.NotIn(dataTableColumns) select c;
         }

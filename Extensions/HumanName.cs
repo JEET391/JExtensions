@@ -18,7 +18,6 @@ namespace JExtensions.Extensions
         }
 
         public HumanName(string fullName)
-
         {
             if (string.IsNullOrEmpty(fullName))
             {

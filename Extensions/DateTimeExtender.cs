@@ -3,11 +3,73 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using static JExtensions.Extensions.Enum.DateTimeExtender;
 
 namespace JExtensions.Extensions
 {
-    public static class DateTimeExtensions
+    public static partial class DateTimeExtender
     {
+        public static string ToString(this DateTime value, Formats formats)
+        {
+            string dateformats;
+            switch (formats)
+            {
+                case Formats.Date:
+                    dateformats = DateFormats.Date;
+                    break;
+
+                case Formats.DateTime:
+                    dateformats = DateFormats.DateTime;
+                    break;
+
+                case Formats.DateTime24:
+                    dateformats = DateFormats.DateTime24;
+                    break;
+
+                case Formats.DateTimeStamp:
+                    dateformats = DateFormats.DateTimeStamp;
+                    break;
+
+                case Formats.DateTimeStamp24:
+                    dateformats = DateFormats.DateTimeStamp24;
+                    break;
+
+                case Formats.Month:
+                    dateformats = DateFormats.Month;
+                    break;
+
+                case Formats.Time:
+                    dateformats = DateFormats.Time;
+                    break;
+
+                case Formats.Time24:
+                    dateformats = DateFormats.Time24;
+                    break;
+
+                case Formats.ddmmyyyy:
+                    dateformats = DateFormats.ddmmyyyy;
+                    break;
+
+                case Formats.mmddyyy:
+                    dateformats = DateFormats.mmddyyyy;
+                    break;
+
+                case Formats.yyyymmdd:
+                    dateformats = DateFormats.yyyymmdd;
+                    break;
+
+                default:
+                    dateformats = DateFormats.Date;
+                    break;
+            }
+            return value.ToString(dateformats);
+        }
+
+        public static string GetMonthName(this DateTime dateTime)
+        {
+            return dateTime.ToString(DateFormats.Month);
+        }
+
         /// <summary>
         /// Convert DateTime to string
         /// </summary>
