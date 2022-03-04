@@ -9,9 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
         integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
         crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
-        integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
-        crossorigin="anonymous"></script>
+
     <style>
         .break {
             page-break-after: always
@@ -20,10 +18,10 @@
 </head>
 
 <body>
-    <div class="ui horizontal two segments">
-        <div class="ui basic segment">
+    <div class="ui horizontal segments">
+        <div class="ui segment">
 
-            <div class="ui centered small card">
+            <div class="ui centered card">
                 <div class="image">
                     <img alt="" src="./images/Picture1.jpg" class="ui middle aligned centered tiny image">
                 </div>
@@ -32,8 +30,8 @@
                 </div>
                 <div class="extra content">
                     <i class="linkedin icon"></i>
-                    <a href="https://www.linkedin.com/in/jitendra-singh-36399192/"
-                        title="Linkedin Profile">View Linkedin Profile</a>
+                    <a href="https://www.linkedin.com/in/jitendra-singh-36399192/" title="Linkedin Profile">View
+                        Linkedin Profile</a>
                 </div>
             </div>
 
@@ -110,7 +108,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="ui basic segment">
+        <div class="ui segment">
             <table class="ui compact celled small table">
                 <thead>
                     <tr>
@@ -219,83 +217,163 @@
         </div>
     </div>
     <div class="break"></div>
-    <div class="ui two segments">
-        <div class="ui basic segment">
+    <div class="ui segments">
+        <div class="ui segment">
             <h4 class="ui header">
                 <i class="calendar check outline icon"></i>
                 <div class="content">
-                    Overall Experience 6.5 Years
+                    Total Experience <span id="experience"></span>
                 </div>
-              </h2>
-            <table class="ui compact celled small table">
-                <thead>
-                    <tr>
-                        <th colspan="2">Experiences</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="three wide">CRM Developer</td>
-                        <td>3.5 Years</td>
-                    </tr>
-                    <tr>
-                        <td>.NET Developer</td>
-                        <td>3 Years</td>
-                    </tr>
-                </tbody>
-                
-            </table>
+                </h2>
+                <table class="ui basic compact celled small table">
+                    <thead>
+                        <tr>
+                            <th>CRM Developer</th>
+                            <th>.NET Developer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="crmexperience"></td>
+                            <td id="dotnetexperience"></td>
+                        </tr>
+                    </tbody>
+
+                </table>
         </div>
-        <div class="ui basic segment">
+        <div class="ui segment">
             <h4 class="ui header">
                 <i class="briefcase icon"></i>
                 <div class="content">
                     Job History
                 </div>
-              </h2>
-            <table class="ui compact celled small table">
-                <thead>
-                    <tr class="center aligned">
-                        <th class="three wide">Company</th>
-                        <th>Location</th>
-                        <th>Role</th>
-                        <th>Duration</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="center aligned">
-                        <td><img src="./images/DMI.png" alt="" class="ui middle aligned centered tiny image" /></td>
-                        <td><strong>DMI Innovations Private Limited</strong><br />Noida, Uttar Pradesh, India</td>
-                        <td>Senior Software Engineer</td>
-                        <td>July 2021 - Present</td>
-                    </tr>
-                    <tr class="center aligned">
-                        <td><img src="./images/Affluent.png" alt="" class="ui middle aligned tiny centered image" />
-                        </td>
-                        <td><strong>Affluent Global Services Private Limited</strong><br />Hyderabad, Telangana, India
-                        </td>
-                        <td>Senior Software Engineer</td>
-                        <td>April 2021- June 2021 <br />3 months</td>
-                    </tr>
+                </h2>
+                <table class="ui compact celled small table">
+                    <thead>
+                        <tr class="center aligned">
+                            <th>Company</th>
+                            <th>Location</th>
+                            <th>Role</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="center aligned">
+                            <td><img src="./images/DMI.png" alt="" class="ui middle aligned centered tiny image" /></td>
+                            <td><strong>DMI Innovations Private Limited</strong><br />
+                               <Address>8th Floor, Tower A, Windsor IT Park, Sector 125, Noida, Uttar Pradesh 201303</Address>
+                            </td>
+                            <td>Senior Software Engineer</td>
+                            <td id="dmi"></td>
+                        </tr>
+                        <tr class="center aligned">
+                            <td><img src="./images/Affluent.png" alt="" class="ui middle aligned tiny centered image" />
+                            </td>
+                            <td><strong>Affluent Global Services Private Limited</strong><Address>G-1, JST Silicon Tower, Kondapur, Hi-tech City Road, Rangareddi, Hyderabad-500084, Telangana, India</Address>
+                            </td>
+                            <td>Senior Software Engineer</td>
+                            <td id="ags"></td>
+                        </tr>
 
-                    <tr class="center aligned">
-                        <td><img src="./images/Indiabulls.png" alt="" class="ui middle aligned tiny centered image" />
-                        </td>
-                        <td><strong>Indiabulls Housing Finance Limited</strong><br />Gurgaon, Haryana, India</td>
-                        <td>Software Engineer</td>
-                        <td>August 2016 - March 2021 <br />4.8 Years</td>
-                    </tr>
+                        <tr class="center aligned">
+                            <td><img src="./images/Indiabulls.png" alt=""
+                                    class="ui middle aligned tiny centered image" />
+                            </td>
+                            <td><strong>Indiabulls Housing Finance Limited</strong><Address>Plot No 448-451, Udyog Vihar Industrial Area Phase 5, Gurgaon - 122016, India</Address>
 
-                    <tr class="center aligned">
-                        <td><img src="./images/Minerva.png" alt="" class="ui middle aligned tiny centered image" /></td>
-                        <td><strong>Minerva Technology Solutions Limited</strong><br />Jasola Appolo, New Delhi</td>
-                        <td>.Net Developer</td>
-                        <td>May 2015-July 2016 <br />1.3 Years</td>
-                    </tr>
+                            </td>
+                            <td>Software Engineer</td>
+                            <td id="indiabulls"></td>
+                        </tr>
 
-                </tbody>
-            </table>
+                        <tr class="center aligned">
+                            <td><img src="./images/Minerva.png" alt="" class="ui middle aligned tiny centered image" />
+                            </td>
+                            <td><strong>Minerva Technology Solutions Limited</strong><Address>1st Floor, US Complex, 115, 120, Mathura Rd, opp. Apollo Hospital, Sarita Vihar, New Delhi, Delhi 110076</Address></td>
+                            <td>.Net Developer</td>
+                            <td id="minerva"></td>
+                        </tr>
+
+                    </tbody>
+                </table>
         </div>
 </body>
+<script src="./lib/jquery-3.6.0.min.js"></script>
+<script src="./lib/moment.js"></script>
+<script src="./lib/moment-precise-range.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
+    integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
+    crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        setEmployment();
+    });
+    function setEmployment() {
+        let totalExperience = 0;
+        let netExperience = 0;
+        let crmExperience = 0;
+        const array = ["dmi", "ags", "indiabulls", "minerva"];
+        const employment =
+        {
+            indiabulls: {
+                startDate: "2016-08-02",
+                endDate: "2021-03-31",
+                netDeveloper: true,
+                crmDeveloper: true
+            },
+            minerva: {
+                startDate: "2015-05-02",
+                endDate: "2016-07-31",
+                netDeveloper: true,
+                crmDeveloper: null
+            },
+            dmi: {
+                startDate: "2021-06-21",
+                endDate: null,
+                crmDeveloper: true,
+                netDeveloper: null
+            },
+            ags: {
+                startDate: "2021-04-01",
+                endDate: "2021-06-20",
+                netDeveloper: null,
+                crmDeveloper: true
+            }
+        };
+        array.forEach(key => {
+            const company = employment[key];
+            const htmlElement = document.getElementById(key);
+            if (htmlElement) {
+                if (!company.endDate) {
+                    const today = new Date();
+                    company.endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                    htmlElement.innerHTML = `${moment.preciseDiff(company.startDate, company.endDate)}<br/>(${company.startDate} ~ Present)`;
+                }
+                else {
+                    htmlElement.innerHTML = `${moment.preciseDiff(company.startDate, company.endDate)}<br/>(${company.startDate} ~ ${company.endDate})`;
+                }
+                totalExperience += moment(company.endDate).diff(company.startDate, 'years', true);
+                if (company.crmDeveloper) {
+                    crmExperience += moment(company.endDate).diff(company.startDate, 'years', true);
+                }
+                if (company.netDeveloper) {
+                    netExperience += moment(company.endDate).diff(company.startDate, 'years', true);
+                }
+            }
+        });
+        const totalExperienceElement = document.getElementById("experience");
+        if (totalExperienceElement) {
+            totalExperienceElement.innerHTML = `${totalExperience.toFixed(1)} years`;
+        }
+        const crmexperienceElement = document.getElementById("crmexperience");
+        if (crmexperienceElement) {
+            crmexperienceElement.innerHTML = `${crmExperience.toFixed(1)} years`;
+        }
+        const dotnetexperienceElement = document.getElementById("dotnetexperience");
+        if (dotnetexperienceElement) {
+            dotnetexperienceElement.innerHTML = `${netExperience.toFixed(1)} years`;
+        }
+    }
+</script>
 
 </html>
