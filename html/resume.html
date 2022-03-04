@@ -12,15 +12,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
         integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
         crossorigin="anonymous"></script>
+    <style>
+        .break {
+            page-break-after: always
+        }
+    </style>
 </head>
 
 <body>
     <div class="ui horizontal two segments">
         <div class="ui basic segment">
 
-            <div class="ui fluid card">
+            <div class="ui centered small card">
                 <div class="image">
-                    <img alt="" src="./images/Picture1.jpg">
+                    <img alt="" src="./images/Picture1.jpg" class="ui middle aligned centered tiny image">
                 </div>
                 <div class="content">
                     <a class="header">Jitendra Singh</a>
@@ -28,7 +33,7 @@
                 <div class="extra content">
                     <i class="linkedin icon"></i>
                     <a href="https://www.linkedin.com/in/jitendra-singh-36399192/"
-                        title="Linkedin Profile">https://www.linkedin.com/in/jitendra-singh-36399192/</a>
+                        title="Linkedin Profile">View Linkedin Profile</a>
                 </div>
             </div>
 
@@ -48,8 +53,8 @@
                         <td>Male</td>
                     </tr>
                     <tr>
-                        <td>Marital Status</td>
                         <td>Married</td>
+                        <td>Yes</td>
                     </tr>
                     <tr>
                         <td>Nationality</td>
@@ -81,29 +86,6 @@
             <table class="ui compact celled small table">
                 <thead>
                     <tr>
-                        <th colspan="2">Work Experience</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="six wide">CRM Developer</td>
-                        <td>3.5 Years</td>
-                    </tr>
-                    <tr>
-                        <td>.NET Developer</td>
-                        <td>3 Years</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Overall Experience</th>
-                        <th>6.5 Years</th>
-                    </tr>
-                </tfoot>
-            </table>
-            <table class="ui compact celled small table">
-                <thead>
-                    <tr>
                         <th>Hobbies</th>
                     </tr>
                 </thead>
@@ -114,6 +96,7 @@
 
                 </tbody>
             </table>
+
             <table class="ui compact celled small table">
                 <thead>
                     <tr>
@@ -235,6 +218,84 @@
             </table>
         </div>
     </div>
+    <div class="break"></div>
+    <div class="ui two segments">
+        <div class="ui basic segment">
+            <h4 class="ui header">
+                <i class="calendar check outline icon"></i>
+                <div class="content">
+                    Overall Experience 6.5 Years
+                </div>
+              </h2>
+            <table class="ui compact celled small table">
+                <thead>
+                    <tr>
+                        <th colspan="2">Experiences</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="three wide">CRM Developer</td>
+                        <td>3.5 Years</td>
+                    </tr>
+                    <tr>
+                        <td>.NET Developer</td>
+                        <td>3 Years</td>
+                    </tr>
+                </tbody>
+                
+            </table>
+        </div>
+        <div class="ui basic segment">
+            <h4 class="ui header">
+                <i class="briefcase icon"></i>
+                <div class="content">
+                    Job History
+                </div>
+              </h2>
+            <table class="ui compact celled small table">
+                <thead>
+                    <tr class="center aligned">
+                        <th class="three wide">Company</th>
+                        <th>Location</th>
+                        <th>Role</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="center aligned">
+                        <td><img src="./images/DMI.png" alt="" class="ui middle aligned centered tiny image" /></td>
+                        <td><strong>DMI Innovations Private Limited</strong><br />Noida, Uttar Pradesh, India</td>
+                        <td>Senior Software Engineer</td>
+                        <td>July 2021 - Present</td>
+                    </tr>
+                    <tr class="center aligned">
+                        <td><img src="./images/Affluent.png" alt="" class="ui middle aligned tiny centered image" />
+                        </td>
+                        <td><strong>Affluent Global Services Private Limited</strong><br />Hyderabad, Telangana, India
+                        </td>
+                        <td>Senior Software Engineer</td>
+                        <td>April 2021- June 2021 <br />3 months</td>
+                    </tr>
+
+                    <tr class="center aligned">
+                        <td><img src="./images/Indiabulls.png" alt="" class="ui middle aligned tiny centered image" />
+                        </td>
+                        <td><strong>Indiabulls Housing Finance Limited</strong><br />Gurgaon, Haryana, India</td>
+                        <td>Software Engineer</td>
+                        <td>August 2016 - March 2021 <br />4.8 Years</td>
+                    </tr>
+
+                    <tr class="center aligned">
+                        <td><img src="./images/Minerva.png" alt="" class="ui middle aligned tiny centered image" /></td>
+                        <td><strong>Minerva Technology Solutions Limited</strong><br />Jasola Appolo, New Delhi</td>
+                        <td>.Net Developer</td>
+                        <td>May 2015-July 2016 <br />1.3 Years</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
 </body>
 
 </html>
