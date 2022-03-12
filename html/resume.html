@@ -14,13 +14,24 @@
         .break {
             page-break-after: always
         }
+
+        ol {
+            margin: 0;
+            padding: 5px
+        }
+
+        ol li {
+            float: left;
+            margin-left: 10px;
+            padding: 0 10px 0 0;
+            list-style-type:square;
+            text-align: justify;
+        }
     </style>
 </head>
 
 <body>
-    <p></p>
     <div class="ui basic segment">
-
         <div class="ui horizontal segments">
             <div class="ui segment">
                 <div class="ui centered card">
@@ -76,11 +87,23 @@
                         </tr>
                         <tr>
                             <td>Hobbies</td>
-                            <td>Stock Analysis, Finance Sector, Money Management</td>
+                            <td>
+                                <ol>
+                                    <li>Stock Analysis</li>
+                                    <li>Finance Sector</li>
+                                    <li>Money Management</li>
+                                </ol>
+                            </td>
                         </tr>
                         <tr>
                             <td>Strength</td>
-                            <td>Self-Learner, Love Challenges in Coding, Honest to my work/family</td>
+                            <td>
+                                <ol>
+                                    <li>Self-Learner</li>
+                                    <li>Love Challenges in Coding</li>
+                                    <li>Honest to my work/family</li>
+                                </ol>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -167,7 +190,95 @@
             </tbody>
         </table>
         <div class="break"></div>
+        <h3 class="ui horizontal divider tiny header">
+            <i class="map signs icon"></i>Major Projects
+        </h3>
+        <table class="ui celled compact small table">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Description</th>
+                    <th>Client</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="https://sssprod.crm.dynamics.com">D365 Customer Service</a></td>
+                    <td></td>
+                    <td><a href="https://www.optum.com/contact.html">Optum(Ireland)</a> and <a
+                            href="https://salud.grupotriples.com/en/">Triple-S Advantage, Inc. PO Box 11320, San Juan,
+                            Puerto Rico 00922</a></td>
+                </tr>
+                <tr>
+                    <td><a href="https://ibservices.indiabulls.com/" title="CERSAI Reporting System">CERSAI Reporting
+                            System<br /> (Developed in ASP.NET/C#/Oracle)</a></td>
+                    <td>Disbursed Properties has been reported to CERSAI (Central Registry of Securitisation Asset
+                        Reconstruction and Security
+                        Interest of India) Government of India on weekly/monthly basis.</td>
+                    <td rowspan="4"><b>Indiabulls Housing Finance Limited</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="https://galaxy.indiabulls.com" title="Loan Management System">Loan Management
+                            System<br /> (Developed in ASP.NET/C#/Oracle)</a></td>
+                    <td rowspan="2">
+                        <ol>
+                            <li>Customer & Vendors Onboarding</li>
+                            <li>Applicant & Co-Applicant&amp;s Credit Score Checking</li>
+                            <li>PAN Card Validation from NSDL</li>
+                            <li>Income Calculation</li>
+                            <li>Legal Verification</li>
+                            <li>Field Verification</li>
+                            <li>Property Valuation</li>
+                            <li>Personal Discussion with Customer</li>
+                            <li>Deviation Process</li>
+                            <li>Loan Disbursal Management</li>
+                            <li>Pradhan Mantri Awas Yojana (PMAY) Eligibility</li>
+                        </ol>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://indiabullsgroupprod.crm8.dynamics.com" title="Loan Management System">Loan
+                            Management System<br /> (Developed in Microsoft Dynamics 365 Sales)</a>
+                    </td>
 
+                </tr>
+                <tr>
+                    <td><a href="https://indiabullsgroupprod.crm8.dynamics.com">D365 Service</a></td>
+                    <td>After Loan Disbursement, Customer raised services have been implemented in this module and
+                        approx. 374 requests are there.
+                        <ol>
+                            <li>Rate of Interest Change</li>
+                            <li>Fore-closer</li>
+                            <li>Balance Transfer</li>
+                            <li>Tenure Change</li>
+                            <li>Address Change</li>
+                            <li>Balance Transfer Retention</li>
+                            <li>NOC</li>
+                        </ol>
+                </tr>
+                <tr>
+                    <td><a href="https://www.airanalytics.in/#about-air">Air Analytics</a></td>
+
+                    <td>
+                        Domestics & International Airlines Travel MIS Reporting and Database Management
+                        Software. Originally Developed for Yatra.com but now Used by more travel Partners.
+                        <ol>
+                            <li>Simply upload BSP (Billing and Settlement Plan) PDF Files</li>
+                            <li>Make sure of your payouts</li>
+                            <li>Get ready to use excel data download in customized format</li>
+                            <li>Provide Airlines wise data</li>
+                            <li>Provide International / Domestic ticket details</li>
+                            <li>Provide Issue/ Refund/ ADMS & ACMS separately</li>
+                            <li>Customized Taxes details</li>
+                        </ol>
+                    </td>
+                    <td><a href="https://www.yatra.com/">Yatra.com</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="break"></div>
         <h3 class="ui horizontal divider tiny header">
             <i class="laptop icon"></i>Technical Skills
         </h3>
@@ -176,31 +287,86 @@
             <tbody>
                 <tr>
                     <td>CRM Tools</td>
-                    <td>MS Dynamics 365, XRM Toolbox, Power BI Desktop, Power Apps</td>
+                    <td>
+                        <ol>
+                            <li>XRM Toolbox</li>
+                            <li>Plugin Registeration Tool</li>
+                            <li>Web Resource Manager</li>
+                            <li>Early Bound Generator for CRM Entities</li>
+                            <li>XrmDefinitelyTyped</li>
+                            <li>Bulk Data Updater</li>
+                            <li>SQL4 CDS</li>
+                            <li>MS Dynamics 365 Configuration/Data Migration Utilty</li>
+                        </ol>
+                    </td>
                 </tr>
                 <tr>
                     <td>Languages & Scripting</td>
-                    <td>C#, CSS, Java Script, jQuery, XML, HTML, AJAX</td>
+                    <td>
+                        <ol>
+                            <li>C#</li>
+                            <li> CSS</li>
+                            <li> Java Script</li>
+                            <li> jQuery</li>
+                            <li> HTML</li>
+                            <li> AJAX</li>
+                            <li> TypeScript</li>
+                            <li> Node Js</li>
+                            <li> Webpack 2.0</li>
+                        </ol>
+                    </td>
                 </tr>
                 <tr>
                     <td>Frameworks</td>
-                    <td>ASP.Net, ADO.Net, WCF, Windows & Web Services.</td>
+                    <td>
+                        <ol>
+                            <li>ASP.Net</li>
+                            <li> ADO.Net</li>
+                            <li> Web Services</li>
+                            <li> .Net Frameworks 3.5 and above</li>
+                        </ol>
+                    </td>
                 </tr>
                 <tr>
                     <td>Development Tools</td>
-                    <td>Microsoft Visual Studio, Team Foundation Server (TFS), PL SQL Developer</td>
+                    <td>
+                        <ol>
+                            <li>Microsoft Visual Studio Professional/Enterprise</li>
+                            <li> Team Foundation Server (TFS)</li>
+                            <li> PL SQL Developer</li>
+                            <li> Toad</li>
+                            <li> Visual Studio Code</li>
+                            <li> GitHub</li>
+                        </ol>
+                    </td>
                 </tr>
                 <tr>
                     <td>Databases</td>
-                    <td>MS SQL Server, Oracle</td>
+                    <td>
+                        <ol>
+                            <li>Microsoft SQL Server 2008</li>
+                            <li> Oracle 9/10/11/12</li>
+                        </ol>
+                    </td>
                 </tr>
                 <tr>
                     <td>Office Tools</td>
-                    <td>Advance Excel</td>
+                    <td>
+                        <ol>
+                            <li>Advance Excel</li>
+                        </ol>
+                    </td>
                 </tr>
                 <tr>
                     <td>CSS Frameworks</td>
-                    <td>Semantic UI, Bootstrap, Pure CSS, Office Fabric UI</td>
+                    <td>
+                        <ol>
+                            <li>Semantic UI</li>
+                            <li> Bootstrap</li>
+                            <li> Pure CSS</li>
+                            <li> Office Fabric UI</li>
+                        </ol>
+                    </td>
                 </tr>
 
             </tbody>
